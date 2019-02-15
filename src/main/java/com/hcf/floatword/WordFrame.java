@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * 主界面
  */
-public class WordFrame extends JFrame {
+public class WordFrame extends JWindow {
 
     private static final Logger logger = LoggerFactory.getLogger(WordFrame.class);
 
@@ -42,7 +42,7 @@ public class WordFrame extends JFrame {
         jPanel.setSize(600, 200);
         jPanel.setLayout(new BorderLayout());
         wordLabel = new JLabel("<html><body>准备好啦...</body></html>");
-        wordLabel.setFont(new Font("GWIPA", Font.BOLD,25));
+        wordLabel.setFont(new Font("GWIPA", Font.BOLD,30));
         wordLabel.setVerticalAlignment(SwingConstants.TOP);
         wordLabel.setForeground(new Color(82, 181, 65, 255));
         jPanel.add(wordLabel, BorderLayout.CENTER);
@@ -56,30 +56,49 @@ public class WordFrame extends JFrame {
         tb.setVisible(false);
 
         JButton removeBtn = new JButton("remove");
-        removeBtn.addActionListener(new ActionListener() {
+        removeBtn.addActionListener((e) -> {
+            logger.info("删除单词：{}", allWord.get(showIndex - 1));
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                logger.info("删除单词：{}", allWord.get(showIndex - 1));
+            File file = new File("word.properties");
 
-                File file = new File("word.properties");
-
-                try {
-                    java.util.List<String> lines =
-                            FileUtils.readLines(file, "UTF-8");
-                    lines.remove(showIndex-1);
-                    FileUtils.writeLines(file, lines);
-                    WordFrame.this.updateAllWord();
-                    updateWord();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+            try {
+                java.util.List<String> lines =
+                        FileUtils.readLines(file, "UTF-8");
+                lines.remove(showIndex-1);
+                FileUtils.writeLines(file, lines);
+                WordFrame.this.updateAllWord();
+                updateWord();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-
         });
 
         tb.add(removeBtn);
-        tb.add(new JButton("tt1"));
+
+        JButton previousBtn = new JButton("<<");
+        previousBtn.addActionListener((e) -> {
+            -- showIndex;
+            updateWord();
+        });
+        tb.add(previousBtn);
+        JButton stopBtn = new JButton("||");
+        stopBtn.addActionListener((e) -> {
+            if (timer.isRunning()) {
+                timer.stop();
+            } else {
+                ++ showIndex;
+                updateWord();
+                timer.start();
+            }
+        });
+        tb.add(stopBtn);
+
+        JButton nextBtn = new JButton(">>");
+        nextBtn.addActionListener((e) -> {
+            ++ showIndex;
+            updateWord();
+        });
+        tb.add(nextBtn);
 
         JButton wordLibBtn = new JButton("词库选择");
         wordLibBtn.addActionListener((e) -> {
@@ -89,9 +108,7 @@ public class WordFrame extends JFrame {
         tb.addSeparator();
 
         JButton closeBtn = new JButton("×");
-        closeBtn.addActionListener((e) -> {
-            System.exit(0);
-        });
+        closeBtn.addActionListener((e) -> System.exit(0));
         tb.add(closeBtn);
         tb.setFloatable(false);
         topPanel.add(tb);
@@ -245,7 +262,6 @@ public class WordFrame extends JFrame {
 
     public static void main(String[] args) {
         WordFrame frame = new WordFrame(args[0]);
-        frame.setUndecorated(true);
         frame.setSize(600, 200);
         frame.setLocationRelativeTo(null);
         frame.setBackground(new Color(0,0,0,0));

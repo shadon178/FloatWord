@@ -1,5 +1,8 @@
 package com.hcf.floatword;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,6 +15,8 @@ import java.util.Vector;
  * 单词选择对话框
  */
 public class WordLibDialog extends JDialog {
+
+    private static final Logger logger = LoggerFactory.getLogger(WordLibDialog.class);
 
     private String[] head = {"单词", "翻译"};
 

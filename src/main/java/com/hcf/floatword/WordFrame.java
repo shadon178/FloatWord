@@ -1,17 +1,23 @@
 package com.hcf.floatword;
 
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * 主界面
  */
 public class WordFrame extends JFrame {
+
+    private static final Logger logger = LoggerFactory.getLogger(WordFrame.class);
 
     private JToolBar toolBar;
 
@@ -29,7 +35,7 @@ public class WordFrame extends JFrame {
         jPanel.setSize(600, 200);
         jPanel.setLayout(new BorderLayout());
         JLabel wordLabel = new JLabel("<html><body>准备好啦...</body></html>");
-        wordLabel.setFont(new Font("Dialog",   1,   25));
+        wordLabel.setFont(new Font("GWIPA", Font.BOLD,25));
         wordLabel.setVerticalAlignment(SwingConstants.TOP);
         wordLabel.setForeground(new Color(82, 181, 65, 255));
         jPanel.add(wordLabel, BorderLayout.CENTER);
@@ -41,7 +47,31 @@ public class WordFrame extends JFrame {
         topPanel.setBackground(new Color(0,0,0,0));
         JToolBar tb = new JToolBar();
         tb.setVisible(false);
-        tb.add(new JButton("tt1"));
+
+        JButton removeBtn = new JButton("remove");
+        removeBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logger.info("删除单词：");
+
+                File file = new File("word.properties");
+
+                try {
+                    java.util.List<String> lines =
+                            FileUtils.readLines(file, "GBK");
+                    lines.remove(showIndex);
+                    FileUtils.writeLines(file, lines);
+                    WordFrame.this.updateAllWord();
+
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+        });
+
+        tb.add(removeBtn);
         tb.add(new JButton("tt1"));
 
         JButton wordLibBtn = new JButton("词库选择");
@@ -187,6 +217,7 @@ public class WordFrame extends JFrame {
             }
             String[] word = allWord[showIndex++];
             wordLabel.setText("<html><body>" + word[0] + "<br>" + word[1] + "</body></html>");
+            //wordLabel.setText(word[0] + "\n" + word[1]);
         });
         timer.start();
     }

@@ -57,14 +57,14 @@ public class WordFrame extends JWindow {
 
         JButton removeBtn = new JButton("remove");
         removeBtn.addActionListener((e) -> {
-            logger.info("删除单词：{}", allWord.get(showIndex - 1));
+            logger.info("删除单词：{}", allWord.get(showIndex));
 
             File file = new File("word.properties");
 
             try {
                 java.util.List<String> lines =
                         FileUtils.readLines(file, "UTF-8");
-                lines.remove(showIndex-1);
+                lines.remove(showIndex);
                 FileUtils.writeLines(file, lines);
                 WordFrame.this.updateAllWord();
                 updateWord();
@@ -76,28 +76,21 @@ public class WordFrame extends JWindow {
         tb.add(removeBtn);
 
         JButton previousBtn = new JButton("<<");
-        previousBtn.addActionListener((e) -> {
-            -- showIndex;
-            updateWord();
-        });
+        previousBtn.addActionListener((e) -> previousWord());
         tb.add(previousBtn);
         JButton stopBtn = new JButton("||");
         stopBtn.addActionListener((e) -> {
             if (timer.isRunning()) {
                 timer.stop();
             } else {
-                ++ showIndex;
-                updateWord();
+                nextWord();
                 timer.start();
             }
         });
         tb.add(stopBtn);
 
         JButton nextBtn = new JButton(">>");
-        nextBtn.addActionListener((e) -> {
-            ++ showIndex;
-            updateWord();
-        });
+        nextBtn.addActionListener((e) -> nextWord());
         tb.add(nextBtn);
 
         JButton wordLibBtn = new JButton("词库选择");
@@ -234,20 +227,37 @@ public class WordFrame extends JWindow {
         });
 
         allWord = WordFileService.readWord(wordFilePath);
+        updateWord();
 
         timer = new Timer(8000, (e) -> {
             if (showIndex > (allWord.size() - 1)) {
                 showIndex = 0;
             }
-            updateWord();
-            ++ showIndex;
+            nextWord();
         });
         timer.start();
     }
 
+    public void nextWord() {
+        ++ showIndex;
+        if (showIndex >= allWord.size()) {
+            showIndex = 0;
+        }
+        updateWord();
+    }
+
+    public void previousWord() {
+        -- showIndex;
+        if (showIndex < 0) {
+            showIndex = 0;
+        }
+        updateWord();
+    }
+
     public void updateWord() {
         Word word = allWord.get(showIndex);
-        wordLabel.setText("<html><body>" + word.getEnglish() + "<br>" + word.getChinese() + "</body></html>");
+        wordLabel.setText("<html><body>" + word.getEnglish() + "<br>" +
+                word.getChinese() + "</body></html>");
     }
 
     /**

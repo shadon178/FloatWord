@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -20,14 +19,19 @@ public class WordLibDialog extends JDialog {
 
     private String[] head = {"单词", "翻译"};
 
-    public WordLibDialog(WordFrame frame) {
+    public WordLibDialog(WordFrame frame, java.util.List<Word> words) {
         this.setTitle("单词选择");
         this.setSize(400, 500);
         this.setLocationRelativeTo(null);
 
-        String[][] data = readWord();
+        String[][] tableData = new String[words.size()][2];
+        for (int i = 0, size = words.size(); i < size; i++) {
+            Word word = words.get(i);
+            tableData[i][0] = word.getEnglish();
+            tableData[i][1] = word.getChinese();
+        }
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, head);
+        DefaultTableModel tableModel = new DefaultTableModel(tableData, head);
         JTable table = new JTable(tableModel);
         JScrollPane pane = new JScrollPane(table);
 
@@ -81,29 +85,6 @@ public class WordLibDialog extends JDialog {
         }
     }
 
-    public static String[][] readWord() {
-        try {
-            Properties pro = new Properties();
-            FileInputStream in = new FileInputStream(new File("word.properties"));
-            pro.load(new InputStreamReader(in, "GBK"));
-            Enumeration<String> propertyNames = (Enumeration<String>) pro.propertyNames();
-            int count = pro.size();
-            String[][] data = new String[count][2];
-            int i = 0;
-            while (propertyNames.hasMoreElements()) {
-                String word = propertyNames.nextElement();
-                String translate = (String) pro.get(word);
-                String[] row = new String[]{word, translate};
-                data[i] = row;
-                ++ i;
-            }
 
-            in.close();
-            return data;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

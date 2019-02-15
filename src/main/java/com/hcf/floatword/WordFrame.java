@@ -1,5 +1,6 @@
 package com.hcf.floatword;
 
+import com.hcf.floatword.service.WordFileService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +27,21 @@ public class WordFrame extends JFrame {
 
     private Timer timer;
 
-    private String[][] allWord;
+    private java.util.List<Word> allWord;
 
     private int showIndex = 0;
 
-    public WordFrame() {
+    private String wordFilePath;
+
+    private JLabel wordLabel;
+
+    public WordFrame(String wordFilePath) {
+        this.wordFilePath = wordFilePath;
+
         JPanel jPanel = new JPanel();
         jPanel.setSize(600, 200);
         jPanel.setLayout(new BorderLayout());
-        JLabel wordLabel = new JLabel("<html><body>准备好啦...</body></html>");
+        wordLabel = new JLabel("<html><body>准备好啦...</body></html>");
         wordLabel.setFont(new Font("GWIPA", Font.BOLD,25));
         wordLabel.setVerticalAlignment(SwingConstants.TOP);
         wordLabel.setForeground(new Color(82, 181, 65, 255));
@@ -53,17 +60,17 @@ public class WordFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                logger.info("删除单词：");
+                logger.info("删除单词：{}", allWord.get(showIndex - 1));
 
                 File file = new File("word.properties");
 
                 try {
                     java.util.List<String> lines =
-                            FileUtils.readLines(file, "GBK");
-                    lines.remove(showIndex);
+                            FileUtils.readLines(file, "UTF-8");
+                    lines.remove(showIndex-1);
                     FileUtils.writeLines(file, lines);
                     WordFrame.this.updateAllWord();
-
+                    updateWord();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -76,7 +83,7 @@ public class WordFrame extends JFrame {
 
         JButton wordLibBtn = new JButton("词库选择");
         wordLibBtn.addActionListener((e) -> {
-            new WordLibDialog(WordFrame.this).setVisible(true);
+            new WordLibDialog(WordFrame.this, allWord).setVisible(true);
         });
         tb.add(wordLibBtn);
         tb.addSeparator();
@@ -209,38 +216,41 @@ public class WordFrame extends JFrame {
 
         });
 
-        allWord = WordLibDialog.readWord();
+        allWord = WordFileService.readWord(wordFilePath);
 
         timer = new Timer(8000, (e) -> {
-            if (showIndex > (allWord.length - 1)) {
+            if (showIndex > (allWord.size() - 1)) {
                 showIndex = 0;
             }
-            String[] word = allWord[showIndex++];
-            wordLabel.setText("<html><body>" + word[0] + "<br>" + word[1] + "</body></html>");
-            //wordLabel.setText(word[0] + "\n" + word[1]);
+            updateWord();
+            ++ showIndex;
         });
         timer.start();
+    }
+
+    public void updateWord() {
+        Word word = allWord.get(showIndex);
+        wordLabel.setText("<html><body>" + word.getEnglish() + "<br>" + word.getChinese() + "</body></html>");
     }
 
     /**
      * 更新单词
      */
     public void updateAllWord() {
-        allWord = WordLibDialog.readWord();
-        if (showIndex >= allWord.length) {
+        allWord = WordFileService.readWord(wordFilePath);
+        if (showIndex >= allWord.size()) {
             showIndex = 0;
         }
     }
 
     public static void main(String[] args) {
-        WordFrame frame = new WordFrame();
+        WordFrame frame = new WordFrame(args[0]);
         frame.setUndecorated(true);
         frame.setSize(600, 200);
         frame.setLocationRelativeTo(null);
         frame.setBackground(new Color(0,0,0,0));
         frame.setAlwaysOnTop(true);
         frame.setVisible(true);
-
     }
 
 }

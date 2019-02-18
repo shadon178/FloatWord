@@ -65,11 +65,11 @@ public class LingoesLd2Reader {
     };
 
     public static void main(final String[] args) throws IOException {
-        final String ld2File = "C:\\Users\\Shadon\\Desktop\\English Vocabulary for Postgraduate Examination 2009.ld2";
+        final String ld2File = "F:\\Document\\My\\English Vocabulary for Postgraduate Examination 2009.ld2";
 
         // read lingoes ld2 into byte array
         final ByteBuffer dataRawBytes;
-        try (RandomAccessFile file = new RandomAccessFile(ld2File, "r"); final FileChannel fChannel = file.getChannel();) {
+        try (RandomAccessFile file = new RandomAccessFile(ld2File, "r"); final FileChannel fChannel = file.getChannel()) {
             dataRawBytes = ByteBuffer.allocate((int) fChannel.size());
             fChannel.read(dataRawBytes);
         }

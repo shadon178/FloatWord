@@ -56,20 +56,20 @@ public class WordFrame extends JWindow {
         tb.setVisible(false);
 
         JButton removeBtn = new JButton("remove");
-        removeBtn.addActionListener((e) -> {
+        removeBtn.addActionListener((event) -> {
             logger.info("删除单词：{}", allWord.get(showIndex));
 
-            File file = new File("word.properties");
+            File file = new File(wordFilePath);
 
             try {
                 java.util.List<String> lines =
                         FileUtils.readLines(file, "UTF-8");
                 lines.remove(showIndex);
-                FileUtils.writeLines(file, lines);
+                FileUtils.writeLines(file, "UTF-8", lines, false);
                 WordFrame.this.updateAllWord();
                 updateWord();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } catch (IOException e) {
+                logger.error("删除单词出现异常", e);
             }
         });
 

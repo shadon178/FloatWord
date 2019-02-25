@@ -83,7 +83,7 @@ public class LD2Utils {
                     trans = "*";
                 }
                 if (StringUtils.isBlank(phonetic)) {
-                    trans = "[]";
+                    phonetic = "[]";
                 }
 
                 Word word = new Word();
@@ -110,9 +110,8 @@ public class LD2Utils {
             String chinese = word.getChinese();
             String soundmark = word.getSoundmark();
             chinese = StringUtils.replaceEach(chinese,
-                    new String[]{"\t", "\n", " ", "；", "，"},
-                    new String[]{"", "", "", ",", ","});
-
+                    new String[]{"\t", "\n", "；", "，"},
+                    new String[]{"", "", ",", ","});
             String line = english + "\t" + soundmark + "\t" + chinese;
             lines.add(line);
         }

@@ -25,9 +25,13 @@ public class WordFileService {
                 word.setEnglish(split[0]);
                 if (split.length > 1) {
                     word.setSoundmark(split[1]);
+                } else {
+                    word.setSoundmark("");
                 }
                 if (split.length > 2) {
                     word.setChinese(split[2]);
+                } else {
+                    word.setChinese("");
                 }
                 words.add(word);
             }
@@ -36,6 +40,15 @@ public class WordFileService {
             logger.error("IOException", e);
         }
         return new ArrayList<>();
+    }
+
+    public static void write(List<String> lines, String filePath) {
+        try {
+            FileUtils.writeLines(new File(filePath),
+                    "UTF-8", lines, false);
+        } catch (IOException e) {
+            logger.error("IOException", e);
+        }
     }
 
 }

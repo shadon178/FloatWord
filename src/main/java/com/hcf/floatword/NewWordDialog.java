@@ -14,6 +14,9 @@ public class NewWordDialog extends JDialog {
         JLabel wordLabel = new JLabel("单词");
         JTextField wordTextField = new JTextField(30);
 
+        JLabel soundMarkLabel = new JLabel("音标");
+        JTextField soundMarkField = new JTextField(30);
+
         JLabel translateLabel = new JLabel("翻译");
         JTextArea translateTextArea = new JTextArea(10, 30);
 
@@ -26,6 +29,8 @@ public class NewWordDialog extends JDialog {
         JPanel panel = new JPanel();
         panel.add(wordLabel);
         panel.add(wordTextField);
+        panel.add(soundMarkLabel);
+        panel.add(soundMarkField);
         panel.add(translateLabel);
         panel.add(translateTextArea);
         panel.add(saveBtn);

@@ -36,6 +36,7 @@ public class WordFrame extends JWindow {
     private JLabel wordLabel;
 
     public WordFrame(String wordFilePath) {
+        AppConf.wordFilePath = wordFilePath;
         this.wordFilePath = wordFilePath;
 
         JPanel jPanel = new JPanel();

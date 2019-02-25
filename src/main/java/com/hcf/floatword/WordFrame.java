@@ -257,6 +257,7 @@ public class WordFrame extends JWindow {
     public void updateWord() {
         Word word = allWord.get(showIndex);
         wordLabel.setText("<html><body>" + word.getEnglish() + "<br>" +
+                word.getSoundmark() + "<br>" +
                 word.getChinese() + "</body></html>");
     }
 

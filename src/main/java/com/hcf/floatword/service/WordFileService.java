@@ -16,19 +16,22 @@ public class WordFileService {
     private static final Logger logger = LoggerFactory.getLogger(WordFileService.class);
 
     public static List<Word> readWord(String filePath) {
-
         try {
             List<String> lines = FileUtils.readLines(new File(filePath), "UTF-8");
             List<Word> words = new ArrayList<>();
             for (String line : lines) {
-                String[] split = StringUtils.split(line, "=");
+                String[] split = StringUtils.split(line, "\t");
                 Word word = new Word();
                 word.setEnglish(split[0]);
-                word.setChinese(split[1]);
+                if (split.length > 1) {
+                    word.setSoundmark(split[1]);
+                }
+                if (split.length > 2) {
+                    word.setChinese(split[2]);
+                }
                 words.add(word);
             }
             return words;
-
         } catch (IOException e) {
             logger.error("IOException", e);
         }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -33,7 +34,9 @@ public class WordLibDialog extends JDialog {
         }
 
         DefaultTableModel tableModel = new DefaultTableModel(tableData, head);
+        RowSorter sorter = new TableRowSorter(tableModel);
         JTable table = new JTable(tableModel);
+        table.setRowSorter(sorter);
         JScrollPane pane = new JScrollPane(table);
 
         JButton newBtn = new JButton("新增");
@@ -43,7 +46,8 @@ public class WordLibDialog extends JDialog {
         JButton delBtn = new JButton("删除");
         delBtn.addActionListener((e) -> {
             int selectedRow = table.getSelectedRow();
-            tableModel.removeRow(selectedRow);
+            int i = table.convertRowIndexToModel(selectedRow);
+            tableModel.removeRow(i);
         });
         JButton saveBtn = new JButton("保存");
         saveBtn.addActionListener((e) -> {

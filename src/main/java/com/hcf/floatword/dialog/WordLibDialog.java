@@ -1,5 +1,8 @@
-package com.hcf.floatword;
+package com.hcf.floatword.dialog;
 
+import com.hcf.floatword.AppConf;
+import com.hcf.floatword.Word;
+import com.hcf.floatword.WordFrame;
 import com.hcf.floatword.service.WordFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

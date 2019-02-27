@@ -7,4 +7,9 @@ public class AppConf {
      */
     public static String wordFilePath;
 
+    /**
+     * 单词切换时间
+     */
+    public static int SWITCH_TIME_SECOND = 2;
+
 }

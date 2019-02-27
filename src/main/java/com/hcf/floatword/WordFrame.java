@@ -1,5 +1,7 @@
 package com.hcf.floatword;
 
+import com.hcf.floatword.dialog.SettingDialog;
+import com.hcf.floatword.dialog.WordLibDialog;
 import com.hcf.floatword.service.WordFileService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -99,6 +101,13 @@ public class WordFrame extends JWindow {
             new WordLibDialog(WordFrame.this, allWord).setVisible(true);
         });
         tb.add(wordLibBtn);
+
+        JButton settingBtn = new JButton("Setting");
+        settingBtn.addActionListener((e) -> {
+            new SettingDialog(this).setVisible(true);
+        });
+        tb.add(settingBtn);
+
         tb.addSeparator();
 
         JButton closeBtn = new JButton("×");
@@ -204,10 +213,12 @@ public class WordFrame extends JWindow {
                 WordFrame.this.setOpacity(1f);
 
                 toolBar.setVisible(true);
+                timer.stop();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                timer.start();
                 Point location = toolBar.getLocationOnScreen();
                 Dimension toolBarSize = toolBar.getSize();
 
@@ -230,7 +241,7 @@ public class WordFrame extends JWindow {
         allWord = WordFileService.readWord(wordFilePath);
         updateWord();
 
-        timer = new Timer(8000, (e) -> {
+        timer = new Timer(AppConf.SWITCH_TIME_SECOND * 1000, (e) -> {
             if (showIndex > (allWord.size() - 1)) {
                 showIndex = 0;
             }
@@ -270,6 +281,15 @@ public class WordFrame extends JWindow {
         if (showIndex >= allWord.size()) {
             showIndex = 0;
         }
+    }
+
+    public void updateUI() {
+
+    }
+
+    public void updateSwitchTime(int switchTime) {
+        timer.setDelay(switchTime * 1000);
+        AppConf.SWITCH_TIME_SECOND = switchTime;
     }
 
     public static void main(String[] args) {

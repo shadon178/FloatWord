@@ -1,4 +1,4 @@
-package com.hcf.floatword;
+package cn.sz.pxd.floatword;
 
 public class Word {
 

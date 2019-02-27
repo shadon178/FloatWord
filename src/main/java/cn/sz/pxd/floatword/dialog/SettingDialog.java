@@ -1,7 +1,7 @@
-package com.hcf.floatword.dialog;
+package cn.sz.pxd.floatword.dialog;
 
-import com.hcf.floatword.AppConf;
-import com.hcf.floatword.WordFrame;
+import cn.sz.pxd.floatword.AppConf;
+import cn.sz.pxd.floatword.WordFrame;
 
 import javax.swing.*;
 import java.awt.*;

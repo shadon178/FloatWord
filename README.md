@@ -4,7 +4,7 @@
 ![图片演示](https://github.com/shadon178/FloatWord/blob/master/img/floatword.PNG)
 
 启动方式：
-直接运行com.hcf.floatword.WordFrame类即可。
+直接运行cn.sz.pxd.floatword.WordFrame类即可。
 启动参数为word.csv文件路径
 
 原理：

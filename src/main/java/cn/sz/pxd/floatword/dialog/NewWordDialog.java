@@ -1,4 +1,4 @@
-package com.hcf.floatword.dialog;
+package cn.sz.pxd.floatword.dialog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

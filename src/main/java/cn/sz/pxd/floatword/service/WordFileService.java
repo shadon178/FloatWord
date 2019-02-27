@@ -1,6 +1,6 @@
-package com.hcf.floatword.service;
+package cn.sz.pxd.floatword.service;
 
-import com.hcf.floatword.Word;
+import cn.sz.pxd.floatword.Word;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

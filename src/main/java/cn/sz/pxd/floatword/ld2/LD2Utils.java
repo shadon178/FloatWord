@@ -1,6 +1,6 @@
-package com.hcf.floatword.ld2;
+package cn.sz.pxd.floatword.ld2;
 
-import com.hcf.floatword.Word;
+import cn.sz.pxd.floatword.Word;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;

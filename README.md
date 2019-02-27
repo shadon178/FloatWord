@@ -5,3 +5,7 @@
 
 启动方式：
 直接运行com.hcf.floatword.WordFrame类即可。
+启动参数为word.csv文件路径
+
+原理：
+主要使用csv文件保存单词信息，每隔一段时间自动切换单词。

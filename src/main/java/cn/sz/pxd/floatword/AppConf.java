@@ -10,6 +10,6 @@ public class AppConf {
     /**
      * 单词切换时间
      */
-    public static int SWITCH_TIME_SECOND = 2;
+    public static int SWITCH_TIME_SECOND = 10;
 
 }

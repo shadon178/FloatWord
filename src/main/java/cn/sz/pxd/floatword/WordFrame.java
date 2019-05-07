@@ -108,6 +108,12 @@ public class WordFrame extends JWindow {
         });
         tb.add(settingBtn);
 
+        JButton setTopBtn = new JButton("Top");
+        setTopBtn.addActionListener((e) -> {
+            WordFrame.this.setAlwaysOnTop(true);
+        });
+        tb.add(setTopBtn);
+
         tb.addSeparator();
 
         JButton closeBtn = new JButton("×");

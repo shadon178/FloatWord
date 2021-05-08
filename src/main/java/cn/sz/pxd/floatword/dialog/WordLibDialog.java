@@ -4,8 +4,6 @@ import cn.sz.pxd.floatword.AppConf;
 import cn.sz.pxd.floatword.Word;
 import cn.sz.pxd.floatword.WordFrame;
 import cn.sz.pxd.floatword.service.WordFileService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,13 +14,11 @@ import java.util.Vector;
 
 /**
  * 单词选择对话框
+ * @author https://github.com/shadon178
  */
 public class WordLibDialog extends JDialog {
 
-    private static final Logger logger = LoggerFactory.getLogger(WordLibDialog.class);
-
-    private String[] head = {"单词", "音标", "翻译"};
-
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public WordLibDialog(WordFrame frame, java.util.List<Word> words) {
         this.setTitle("单词选择");
         this.setSize(400, 500);
@@ -36,6 +32,7 @@ public class WordLibDialog extends JDialog {
             tableData[i][2] = word.getChinese();
         }
 
+        String[] head = {"单词", "音标", "翻译"};
         DefaultTableModel tableModel = new DefaultTableModel(tableData, head);
         RowSorter sorter = new TableRowSorter(tableModel);
         JTable table = new JTable(tableModel);
@@ -43,9 +40,7 @@ public class WordLibDialog extends JDialog {
         JScrollPane pane = new JScrollPane(table);
 
         JButton newBtn = new JButton("新增");
-        newBtn.addActionListener((e) -> {
-            new NewWordDialog(tableModel).setVisible(true);
-        });
+        newBtn.addActionListener((e) -> new NewWordDialog(tableModel).setVisible(true));
         JButton delBtn = new JButton("删除");
         delBtn.addActionListener((e) -> {
             int selectedRow = table.getSelectedRow();
@@ -56,8 +51,8 @@ public class WordLibDialog extends JDialog {
         saveBtn.addActionListener((e) -> {
             Vector dataVector = tableModel.getDataVector();
             java.util.List<String> lines = new ArrayList<>();
-            for (int i = 0, size = dataVector.size(); i < size; i++) {
-                Vector rowData = (Vector) dataVector.get(i);
+            for (Object o : dataVector) {
+                Vector rowData = (Vector) o;
                 String word = (String) rowData.get(0);
                 String soundMark = (String) rowData.get(1);
                 String translate = (String) rowData.get(2);

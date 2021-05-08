@@ -3,6 +3,9 @@ package cn.sz.pxd.floatword.dialog;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author https://github.com/shadon178
+ */
 public class NewWordDialog extends JDialog {
 
     public NewWordDialog(DefaultTableModel tableModel) {

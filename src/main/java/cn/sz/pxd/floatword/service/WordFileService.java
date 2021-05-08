@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author https://github.com/shadon178
+ */
 public class WordFileService {
 
     private static final Logger logger = LoggerFactory.getLogger(WordFileService.class);

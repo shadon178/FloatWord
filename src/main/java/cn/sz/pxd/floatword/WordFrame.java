@@ -17,15 +17,13 @@ import java.io.IOException;
 
 /**
  * 主界面
+ * @author https://github.com/shadon178
  */
 public class WordFrame extends JWindow {
 
     private static final Logger logger = LoggerFactory.getLogger(WordFrame.class);
 
-    private JToolBar toolBar;
-
-    private int mousePressedX;
-    private int mousePressedY;
+    private final JToolBar toolBar;
 
     private Timer timer;
 
@@ -33,9 +31,9 @@ public class WordFrame extends JWindow {
 
     private int showIndex = 0;
 
-    private String wordFilePath;
+    private final String wordFilePath;
 
-    private JLabel wordLabel;
+    private final JLabel wordLabel;
 
     public WordFrame(String wordFilePath) {
         AppConf.wordFilePath = wordFilePath;
@@ -97,21 +95,15 @@ public class WordFrame extends JWindow {
         tb.add(nextBtn);
 
         JButton wordLibBtn = new JButton("词库选择");
-        wordLibBtn.addActionListener((e) -> {
-            new WordLibDialog(WordFrame.this, allWord).setVisible(true);
-        });
+        wordLibBtn.addActionListener((e) -> new WordLibDialog(WordFrame.this, allWord).setVisible(true));
         tb.add(wordLibBtn);
 
         JButton settingBtn = new JButton("Setting");
-        settingBtn.addActionListener((e) -> {
-            new SettingDialog(this).setVisible(true);
-        });
+        settingBtn.addActionListener((e) -> new SettingDialog(this).setVisible(true));
         tb.add(settingBtn);
 
         JButton setTopBtn = new JButton("Top");
-        setTopBtn.addActionListener((e) -> {
-            WordFrame.this.setAlwaysOnTop(true);
-        });
+        setTopBtn.addActionListener((e) -> WordFrame.this.setAlwaysOnTop(true));
         tb.add(setTopBtn);
 
         tb.addSeparator();
@@ -137,8 +129,6 @@ public class WordFrame extends JWindow {
             private boolean down = false;
             private boolean left = false;
             private boolean right = false;
-            private boolean drag = false;
-            private Point lastPoint = null;
             private Point draggingAnchor = null;
 
             @Override
@@ -162,7 +152,6 @@ public class WordFrame extends JWindow {
                     down = false;
                     left = false;
                     right = false;
-                    drag = true;
                 }
 
             }
@@ -174,7 +163,9 @@ public class WordFrame extends JWindow {
 
                     dimension.setSize(dimension.getWidth(), dimension.getHeight() - e.getY());
                     WordFrame.this.setSize(dimension);
-                    WordFrame.this.setLocation(WordFrame.this.getLocationOnScreen().x, WordFrame.this.getLocationOnScreen().y + e.getY());
+                    WordFrame.this.setLocation(
+                            WordFrame.this.getLocationOnScreen().x,
+                            WordFrame.this.getLocationOnScreen().y + e.getY());
 
                 } else if (down) {
 
@@ -185,7 +176,9 @@ public class WordFrame extends JWindow {
 
                     dimension.setSize(dimension.getWidth() - e.getX(), dimension.getHeight());
                     WordFrame.this.setSize(dimension);
-                    WordFrame.this.setLocation(WordFrame.this.getLocationOnScreen().x + e.getX(), WordFrame.this.getLocationOnScreen().y);
+                    WordFrame.this.setLocation(
+                            WordFrame.this.getLocationOnScreen().x + e.getX(),
+                            WordFrame.this.getLocationOnScreen().y);
 
                 } else if (right) {
 
@@ -193,13 +186,9 @@ public class WordFrame extends JWindow {
                     WordFrame.this.setSize(dimension);
 
                 } else {
-                    /**
-                    int onScreenX = e.getXOnScreen();
-                    int onScreenY = e.getYOnScreen();
-                    int xx = onScreenX - mousePressedX;
-                    int yy = onScreenY - mousePressedY;
-                    WordFrame.this.setLocation(xx, yy); **/
-                    WordFrame.this.setLocation(e.getLocationOnScreen().x - draggingAnchor.x, e.getLocationOnScreen().y - draggingAnchor.y);
+                    WordFrame.this.setLocation(
+                            e.getLocationOnScreen().x - draggingAnchor.x,
+                            e.getLocationOnScreen().y - draggingAnchor.y);
                 }
             }
 
@@ -209,8 +198,6 @@ public class WordFrame extends JWindow {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                mousePressedX = e.getX();
-                mousePressedY = e.getY();
             }
 
             @Override
@@ -289,16 +276,16 @@ public class WordFrame extends JWindow {
         }
     }
 
-    public void updateUI() {
-
-    }
-
     public void updateSwitchTime(int switchTime) {
         timer.setDelay(switchTime * 1000);
         AppConf.SWITCH_TIME_SECOND = switchTime;
     }
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println("缺少必要的‘单词文件路径’参数");
+            System.exit(-1);
+        }
         WordFrame frame = new WordFrame(args[0]);
         frame.setSize(600, 200);
         frame.setLocationRelativeTo(null);

@@ -1,5 +1,8 @@
 package cn.sz.pxd.floatword;
 
+/**
+ * @author https://github.com/shadon178
+ */
 public class AppConf {
 
     /**

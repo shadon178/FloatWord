@@ -2,6 +2,9 @@ package cn.sz.pxd.floatword;
 
 import javax.swing.*;
 
+/**
+ * @author https://github.com/shadon178
+ */
 public class Main {
 
     public static void main(String[] args) {

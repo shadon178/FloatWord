@@ -6,9 +6,12 @@ import cn.sz.pxd.floatword.WordFrame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author https://github.com/shadon178
+ */
 public class SettingDialog extends JDialog {
 
-    private WordFrame parent;
+    private final WordFrame parent;
 
     public SettingDialog(WordFrame parent) {
         this.parent = parent;
@@ -40,20 +43,14 @@ public class SettingDialog extends JDialog {
         JButton okBtn = new JButton("OK");
         okBtn.addActionListener((e) -> {
 
-            int switchTime = Integer.valueOf(timeText.getText());
+            int switchTime = Integer.parseInt(timeText.getText());
             if (AppConf.SWITCH_TIME_SECOND != switchTime) {
                 parent.updateSwitchTime(switchTime);
             }
-
-
-
-
             SettingDialog.this.setVisible(false);
         });
         JButton cancelBtn = new JButton("Cancel");
-        cancelBtn.addActionListener((e) -> {
-            SettingDialog.this.setVisible(false);
-        });
+        cancelBtn.addActionListener((e) -> SettingDialog.this.setVisible(false));
         btnPanel.add(okBtn);
         btnPanel.add(cancelBtn);
         this.add(btnPanel, BorderLayout.SOUTH);

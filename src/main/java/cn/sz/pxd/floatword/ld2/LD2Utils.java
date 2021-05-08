@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author https://github.com/shadon178
+ */
 public class LD2Utils {
 
     private static final Logger logger = LoggerFactory.getLogger(LD2Utils.class);
@@ -25,9 +28,9 @@ public class LD2Utils {
         Pattern pat = Pattern.compile(regEx);
         Matcher matcher = pat.matcher(str);
         boolean flg = false;
-        if (matcher.find())
+        if (matcher.find()) {
             flg = true;
-
+        }
         return flg;
     }
 

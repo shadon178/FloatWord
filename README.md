@@ -1,5 +1,8 @@
 # FloatWord
 单词记忆工具，在win桌面上浮动单词。每隔一段时间自动切换单词，这样不知不觉中就记住了一些单词了。
+主要功能：
+- 添加单词、删除单词、查看所有单词列表
+- 设置单词切换时间
 
 ![图片演示](https://github.com/shadon178/FloatWord/blob/master/img/floatword.PNG)
 

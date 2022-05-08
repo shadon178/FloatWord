@@ -3,6 +3,9 @@ package cn.sz.pxd.floatword;
 import cn.sz.pxd.floatword.dialog.SettingDialog;
 import cn.sz.pxd.floatword.dialog.WordLibDialog;
 import cn.sz.pxd.floatword.service.WordFileService;
+import cn.sz.pxd.floatword.utils.DownloadFile;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +16,10 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 主界面
@@ -264,6 +270,27 @@ public class WordFrame extends JWindow {
         wordLabel.setText("<html><body>" + word.getEnglish() + "<br>" +
                 word.getSoundmark() + "<br>" +
                 word.getChinese() + "</body></html>");
+        play(word.getEnglish());
+    }
+
+    public void play(String word) {
+        String filePath = Objects.requireNonNull(
+            WordFrame.class.getClassLoader().getResource("sound")
+        ).getPath() + "/" + word + "_us.mp3";
+
+        File soundFile = new File(filePath);
+        if (!soundFile.exists()) {
+            DownloadFile.downloadByGet(word);
+        }
+        try (FileInputStream stream = new FileInputStream(filePath)) {
+            Player player = new Player(stream);
+            player.play();
+        } catch (FileNotFoundException e) {
+            logger.info("音频文件不存在，不播放。 path: {}", filePath);
+
+        } catch (JavaLayerException | IOException e) {
+            logger.error("播放音频文件时出错，不播放。", e);
+        }
     }
 
     /**

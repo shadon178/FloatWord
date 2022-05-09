@@ -31,6 +31,14 @@
       <outputDirectory>sound</outputDirectory>
       <fileMode>0755</fileMode>
     </fileSet>
+    <fileSet>
+      <directory>target/lib</directory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <outputDirectory>lib</outputDirectory>
+      <fileMode>0755</fileMode>
+    </fileSet>
   </fileSets>
 
 </assembly>

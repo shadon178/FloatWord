@@ -284,7 +284,7 @@ public class WordFrame extends JWindow {
     }
 
     public void play(String word) {
-        String filePath = this.wordFilePath + File.separator + word + "_us.mp3";
+        String filePath = this.soundDirPath + File.separator + word + "_us.mp3";
 
         File soundFile = new File(filePath);
         if (!soundFile.exists()) {

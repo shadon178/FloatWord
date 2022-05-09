@@ -14,12 +14,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -41,11 +42,14 @@ public class WordFrame extends JWindow {
 
     private final String wordFilePath;
 
+    private final String soundDirPath;
+
     private final JLabel wordLabel;
 
     private final ExecutorService executors = Executors.newSingleThreadExecutor();
 
-    public WordFrame(String wordFilePath) {
+    public WordFrame(String wordFilePath, String soundDirPath) {
+        this.soundDirPath = soundDirPath;
         AppConf.wordFilePath = wordFilePath;
         this.wordFilePath = wordFilePath;
 
@@ -280,13 +284,11 @@ public class WordFrame extends JWindow {
     }
 
     public void play(String word) {
-        String filePath = Objects.requireNonNull(
-            WordFrame.class.getClassLoader().getResource("sound")
-        ).getPath() + "/" + word + "_us.mp3";
+        String filePath = this.wordFilePath + File.separator + word + "_us.mp3";
 
         File soundFile = new File(filePath);
         if (!soundFile.exists()) {
-            DownloadFile.downloadByGet(word);
+            DownloadFile.downloadByGet(word, this.soundDirPath);
         }
         try (FileInputStream stream = new FileInputStream(filePath)) {
             Player player = new Player(stream);
@@ -315,11 +317,11 @@ public class WordFrame extends JWindow {
     }
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("缺少必要的‘单词文件路径’参数");
+        if (args.length != 2) {
+            System.out.println("缺少必要的‘单词文件路径’参数和‘单词发音文件目录’");
             System.exit(-1);
         }
-        WordFrame frame = new WordFrame(args[0]);
+        WordFrame frame = new WordFrame(args[0], args[1]);
         frame.setSize(600, 200);
         frame.setLocationRelativeTo(null);
         frame.setBackground(new Color(0,0,0,0));

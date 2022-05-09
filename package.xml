@@ -1,0 +1,36 @@
+<assembly>
+  <id>release</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+
+  <includeBaseDirectory>false</includeBaseDirectory>
+
+  <fileSets>
+    <fileSet>
+      <directory>target</directory>
+      <includes>
+        <include>floatword-*.jar</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <fileSet>
+      <includes>
+        <include>FloatWord_start.bat</include>
+        <include>word.csv</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/resources/sound</directory>
+      <includes>
+        <include>*.mp3</include>
+      </includes>
+      <outputDirectory>sound</outputDirectory>
+      <fileMode>0755</fileMode>
+    </fileSet>
+  </fileSets>
+
+</assembly>

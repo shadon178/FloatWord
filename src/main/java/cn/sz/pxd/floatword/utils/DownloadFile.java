@@ -4,6 +4,7 @@ import cn.sz.pxd.floatword.WordFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,7 @@ public class DownloadFile {
 
     private static final Logger logger = LoggerFactory.getLogger(WordFrame.class);
 
-    public static void downloadByGet(String word) {
+    public static void downloadByGet(String word, String soundDirPath) {
         String remoteUrl = String.format(
             "https://ssl.gstatic.com/dictionary/static/sounds/oxford/%s--_us_1.mp3",
             word
@@ -36,9 +37,7 @@ public class DownloadFile {
                 inputStream = con.getInputStream();
                 byte[] bytes = new byte[1024];
                 int i;
-                String filePath = Objects.requireNonNull(
-                    WordFrame.class.getClassLoader().getResource("sound")
-                ).getPath() + "/" + word + "_us.mp3";
+                String filePath = soundDirPath + File.separator + word + "_us.mp3";
                 fileOutputStream = new FileOutputStream(filePath);
                 while ((i = inputStream.read(bytes)) != -1) {
                     fileOutputStream.write(bytes, 0, i);

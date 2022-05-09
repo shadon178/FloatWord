@@ -17,7 +17,7 @@
     </fileSet>
     <fileSet>
       <includes>
-        <include>FloatWord_start.bat</include>
+        <include>start.bat</include>
         <include>word.csv</include>
       </includes>
       <outputDirectory>.</outputDirectory>

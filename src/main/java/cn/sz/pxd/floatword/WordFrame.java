@@ -20,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 主界面
@@ -40,6 +42,8 @@ public class WordFrame extends JWindow {
     private final String wordFilePath;
 
     private final JLabel wordLabel;
+
+    private final ExecutorService executors = Executors.newSingleThreadExecutor();
 
     public WordFrame(String wordFilePath) {
         AppConf.wordFilePath = wordFilePath;
@@ -267,10 +271,12 @@ public class WordFrame extends JWindow {
 
     public void updateWord() {
         Word word = allWord.get(showIndex);
-        wordLabel.setText("<html><body>" + word.getEnglish() + "<br>" +
-                word.getSoundmark() + "<br>" +
-                word.getChinese() + "</body></html>");
-        play(word.getEnglish());
+        wordLabel.setText("<html><body>"
+            + word.getEnglish() + "<br>"
+            + word.getSoundmark() + "<br>"
+            + word.getChinese() + "</body></html>"
+        );
+        executors.execute(() -> play(word.getEnglish()));
     }
 
     public void play(String word) {
